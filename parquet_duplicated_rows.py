@@ -1,11 +1,12 @@
-import sys, importlib
-import pandas, pyarrow
+import sys
+import importlib
+import pandas as pd
+import pyarrow.parquet as pq
 
-# Comprobar arugemnto filename
-if len(sys.argv) != 2:
-        print("[*] Run:\n\tscript.py <filename.parquet>")
-        sys.exit(1)
-
+# Comprobar argumento filename
+if len(sys.argv) < 2:
+    print("[*] Run:\n\tscript.py <filename1.parquet> [filename2.parquet ...]")
+    sys.exit(1)
 
 # Lista de bibliotecas necesarias
 libraries = ['pandas', 'pyarrow']
@@ -16,25 +17,28 @@ for lib in libraries:
         importlib.import_module(lib)
     except ImportError:
         print(f"{lib} no está instalada. Por favor, instálala antes de ejecutar este script.")
+        sys.exit(1)
 
+# Cargar todos los archivos Parquet en un solo DataFrame
 
-# Cargar el archivo Parquet en un DataFrame
+filenames = sys.argv[1:]
+dfs = []
 
-filename = sys.argv[1]
+for filename in filenames:
+    # Cargar el archivo Parquet en un DataFrame
+    table = pq.read_table(filename)
+    df = table.to_pandas()
+    dfs.append(df)
 
-df = pandas.read_parquet(filename)
-
+# Combinar los DataFrames en uno solo
+combined_df = pd.concat(dfs, ignore_index=True)
 
 # Verificar duplicados basados en todas las columnas
-
-duplicados = df[df.duplicated()]
-
+duplicates = combined_df[combined_df.duplicated()]
 
 # Mostrar los duplicados, si los hay
-
-if not duplicados.empty:
+if not duplicates.empty:
     print("Filas duplicadas encontradas:")
-    print(duplicados)
-
+    print(duplicates)
 else:
     print("No se encontraron filas duplicadas.")
