@@ -1,4 +1,4 @@
-# Parquet tools
+# Parquet Script Tools [Python]
 
 Colección de scripts de Python para tratar ficheros parquet de manera rápida: ver el esquema del parquet, convertir a csv, comprobar filas duplicadas...
 
