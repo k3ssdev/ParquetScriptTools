@@ -16,6 +16,15 @@ pip install pandas pyarrow
 
 ## Uso
 
+### Parquet Schema
+Ejecuta el script para ver el esquema de un archivo Parquet:
+
+```bash
+python parquet_schema.py <filename.parquet>
+```
+
+Donde `<filename.parquet>` es la ruta del archivo en formato Parquet que deseas convertir a CSV.
+
 ### Conversión de Parquet a CSV
 Ejecuta el script para convertir un archivo Parquet a CSV de la siguiente manera:
 
