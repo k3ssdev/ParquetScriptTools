@@ -23,7 +23,7 @@ Ejecuta el script para ver el esquema de un archivo Parquet:
 python parquet_schema.py <filename.parquet>
 ```
 
-Donde `<filename.parquet>` es la ruta del archivo en formato Parquet que deseas convertir a CSV.
+Donde `<filename.parquet>` es la ruta del archivo en formato Parquet.
 
 ### Conversión de Parquet a CSV
 Ejecuta el script para convertir un archivo Parquet a CSV de la siguiente manera:
