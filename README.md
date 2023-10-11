@@ -1,6 +1,9 @@
 # Parquet Script Tools [Python]
 
 Colección de scripts de Python con PyArrow y Pandas para tratar ficheros parquet de manera rápida: ver el esquema del parquet, convertir a CSV, comprobar filas duplicadas y fusionar archivos parquet.
+- [PyArrow](https://arrow.apache.org/docs/python/index.html)
+- [Pandas](https://pandas.pydata.org/docs/index.html)
+
 
 ## Requisitos previos
 Asegúrate de tener las siguientes bibliotecas instaladas en tu entorno de Python:
