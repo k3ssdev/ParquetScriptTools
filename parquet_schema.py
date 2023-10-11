@@ -1,15 +1,17 @@
 import sys
+import pyarrow as pa
 import pyarrow.parquet as pq
 
 # Comprobar arugemnto filename
-if len(sys.argv) != 2:
-        print("[*] Run:\n\tparquetcsv.py <filename.parquet>")
-        sys.exit(1)
+if len(sys.argv) != 3 or sys.argv[1] != '-f':
+    print("[*] Run:\n\tparquet_schema.py -f <filename.parquet>")
+    sys.exit(1)
 
-filename = sys.argv[1]
+filename = sys.argv[2]
 
-# Cargar el archivo Parquet
-tabla_parquet = pq.read_table(filename)
+# Cargar el archivo Parquet utilizando memory map
+with pa.memory_map(filename, 'r') as source:
+    tabla_parquet = pq.read_table(source)
 
 # Obtener el esquema
 esquema = tabla_parquet.schema
