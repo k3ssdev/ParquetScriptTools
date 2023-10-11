@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+import pyarrow as pa
 
 def merge_parquet_files(file_paths):
     # Necesita al menos 2 ficheros para unir
@@ -7,12 +8,16 @@ def merge_parquet_files(file_paths):
         print("Se requieren al menos dos archivos Parquet para la unión.")
         return
 
-    # Leer parquet 1
-    merged_df = pd.read_parquet(file_paths[0])
+    # Leer parquet 1 utilizando memory map
+    with pa.memory_map(file_paths[0], 'r') as source:
+        merged_df = pa.parquet.read_table(source).to_pandas()
 
     # Recorre los demás ficheros para encontrar columna común
     for path in file_paths[1:]:
-        df = pd.read_parquet(path)
+        # Leer parquet utilizando memory map
+        with pa.memory_map(path, 'r') as source:
+            df = pa.parquet.read_table(source).to_pandas()
+
         common_columns = set(merged_df.columns) & set(df.columns)
         if not common_columns:
             print(f"No se encontraron columnas comunes para la unión con {path}.")
